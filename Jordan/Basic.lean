@@ -9,7 +9,7 @@ structure chain where
     segment (𝕜 := ℝ × ℝ) (points[n.1]'(by cases n; simp at *; omega)) (points[n.1 + 1]'(by cases n; simp at *; omega))
   property_of_consecutive_segments:
     ∀ (n m: Fin (points.length - 1)), n.1 + 1 = m.1 →
-    (get_segment n) ∩ (get_segment m) = { points[n.1 + 1]'(by cases n; simp at *; omega) }
+    (get_segment n) ∩ (get_segment m) = { points[m.1]'(by cases n; simp at *; omega) }
   nonconsecutive_segments_disjoint:
     ∀ (n m: Fin (points.length - 1)), n.1 + 1 < m.1 → Disjoint (get_segment n) (get_segment m)
 
