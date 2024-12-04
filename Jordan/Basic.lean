@@ -20,7 +20,7 @@ def Chain.as_Set (c: Chain): Set (ℝ × ℝ) := λ (p: ℝ × ℝ) => ∃ (n: F
 
 structure Polygon where
   chain: Chain
-  can_be_closed: ∀ (n: Fin (chain.points.length - 1)), Disjoint (chain.get_segment n) (segment (𝕜 := ℝ × ℝ) chain.first chain.last)
+  can_be_closed: ∀ (n: Fin (chain.points.length - 1)), Disjoint (chain.get_segment n) (openSegment (𝕜 := ℝ × ℝ) chain.first chain.last)
 
 def Polygon.as_Set (p: Polygon) := p.chain.as_Set ∪ segment (𝕜 := ℝ × ℝ) p.chain.first p.chain.last
 
