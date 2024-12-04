@@ -17,19 +17,14 @@ def chain.first (c: chain): ℝ × ℝ := c.points[0]'(by cases c; simp at *; om
 def chain.last (c: chain): ℝ × ℝ := c.points[c.points.length - 1]'(by cases c; simp at *; omega)
 def chain.connects (c: chain) (x y: ℝ × ℝ) := c.first = x ∧ c.last = y
 def chain.as_Set (c: chain): Set (ℝ × ℝ) := λ (p: ℝ × ℝ) => ∃ (n: Fin (c.points.length - 1)), p ∈ c.get_segment n
+def chain.polygon (c: chain): Set (ℝ × ℝ) := c.as_Set ∪ segment (𝕜 := ℝ × ℝ) c.last c.first
 
-structure Polygon where
-  underlying_chain: chain
-  is_loop: underlying_chain.first = underlying_chain.last
-
-def Polygon.as_Set (p: Polygon): Set (ℝ × ℝ) := p.underlying_chain.as_Set
-
-theorem baby_Jordan (p: Polygon):
-  ∃ A B, p.as_Setᶜ = A ∪ B ∧
+theorem baby_Jordan (c: chain):
+  ∃ A B, c.polygonᶜ = A ∪ B ∧
   A.Nonempty ∧ B.Nonempty ∧ Disjoint A B ∧
-  (∀ x ∈ A, ∀ y ∈ A, ∃ (c: chain), c.connects x y ∧ Disjoint c.as_Set p.as_Set) ∧
-  (∀ x ∈ B, ∀ y ∈ B, ∃ (c: chain), c.connects x y ∧ Disjoint c.as_Set p.as_Set) ∧
-  (∀ x ∈ A, ∀ y ∈ B, ∀ (c: chain), c.connects x y → Disjoint c.as_Set p.as_Set → False) := sorry
+  (∀ x ∈ A, ∀ y ∈ A, ∃ (c: chain), c.connects x y ∧ Disjoint c.as_Set c.polygon) ∧
+  (∀ x ∈ B, ∀ y ∈ B, ∃ (c: chain), c.connects x y ∧ Disjoint c.as_Set c.polygon) ∧
+  (∀ x ∈ A, ∀ y ∈ B, ∀ (c: chain), c.connects x y → Disjoint c.as_Set c.polygon → False) := sorry
 
 
 structure Jordan_curve where
